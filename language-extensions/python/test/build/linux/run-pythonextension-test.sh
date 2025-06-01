@@ -22,7 +22,7 @@ function build {
 	
 	# Move the generated libs to configuration folder
 	#
-	cp ${PYTHONEXTENSION_WORKING_DIR}/${CMAKE_CONFIGURATION}/libPythonExtension.so.1.1 .
+	cp ${PYTHONEXTENSION_WORKING_DIR}/${CMAKE_CONFIGURATION}/libPythonExtension.so.1.2 .
 	cp /usr/src/gtest/*.so .
 	
 	ENL_ROOT=${ENL_ROOT} ./pythonextension-test --gtest_output=xml:${ENL_ROOT}/out/TestReport_PythonExtension-test.xml
@@ -54,6 +54,8 @@ if [ -z "${PYTHONHOME}" ]; then
 		exit 1
 	fi
 fi
+
+echo "Python home is ${PYTHONHOME}"
 
 # Build in release mode if nothing is specified
 #

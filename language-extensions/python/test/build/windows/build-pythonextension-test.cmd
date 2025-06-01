@@ -12,17 +12,19 @@ SET PYTHONEXTENSION_TEST_WORKING_DIR=%ENL_ROOT%\build-output\pythonextension-tes
 RMDIR /s /q %PYTHONEXTENSION_TEST_WORKING_DIR%
 MKDIR %PYTHONEXTENSION_TEST_WORKING_DIR%
 
-SET DEFAULT_BOOST_ROOT=%PACKAGES_ROOT%\External-Boost.master.Boost.1.69.0.1020
-SET DEFAULT_BOOST_PYTHON_ROOT=%DEFAULT_BOOST_ROOT%\windows\lib
-SET DEFAULT_PYTHONHOME=%PACKAGES_ROOT%\python
+SET BOOST_VERSION=1.79.0
+SET BOOST_VERSION_IN_UNDERSCORE=1_79_0
+SET DEFAULT_BOOST_ROOT=%PACKAGES_ROOT%\boost_%BOOST_VERSION_IN_UNDERSCORE%
+SET DEFAULT_BOOST_PYTHON_ROOT=%DEFAULT_BOOST_ROOT%\stage\lib
+SET DEFAULT_PYTHONHOME=C:\Python310
 SET DEFAULT_CMAKE_ROOT=%PACKAGES_ROOT%\CMake-win64.3.15.5
 
 REM Find boost, python, and cmake paths from user, or set to default for tests.
-REM 
+REM
 SET ENVVAR_NOT_FOUND=203
 
 IF "%BOOST_ROOT%" == "" (
-	IF EXIST %DEFAULT_BOOST_ROOT% (
+	IF EXIST "%DEFAULT_BOOST_ROOT%" (
 		SET BOOST_ROOT=%DEFAULT_BOOST_ROOT%
 	) ELSE (
 		CALL :CHECKERROR %ENVVAR_NOT_FOUND% "Error: BOOST_ROOT variable must be set to build the python extension test" || EXIT /b %ENVVAR_NOT_FOUND%
@@ -74,7 +76,7 @@ REM Do not call VsDevCmd if the environment is already set. Otherwise, it will k
 REM to the PATH environment variable and it will be too long for windows to handle.
 REM
 if not defined DevEnvDir (
-	call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=amd64 -host_arch=amd64
+	call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\VsDevCmd.bat" -arch=amd64 -host_arch=amd64
 )
 
 ECHO "[INFO] Generating pythonextension test project build files using CMAKE_CONFIGURATION=%CMAKE_CONFIGURATION%"
@@ -86,7 +88,7 @@ PUSHD %BUILD_OUTPUT%
 REM Call cmake
 REM
 call "%CMAKE_ROOT%\bin\cmake.exe" ^
-	-G "Visual Studio 15 2017 Win64" ^
+	-G "Visual Studio 16 2019" ^
 	-DPLATFORM=windows ^
 	-DENL_ROOT="%ENL_ROOT%" ^
 	-DCMAKE_CONFIGURATION=%CMAKE_CONFIGURATION% ^

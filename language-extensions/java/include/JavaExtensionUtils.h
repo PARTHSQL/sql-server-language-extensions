@@ -39,6 +39,10 @@ public:
 	//
 	static bool IsValidFile(const std::string &file);
 
+	// Split a string based on a delimiter
+	//
+	static std::vector<std::string> SplitString(const std::string &str, const char delimiter);
+
 	// Creates a JVM
 	//
 	static JNIEnv* CreateJvm();
@@ -73,6 +77,10 @@ private:
 	// Loads the JVM library and returns a function pointer to the JNICreate_JVM
 	//
 	static fn_createJvm LoadJvm(const std::string &jvmPath);
+
+	// Cleans up the JVM instance
+	//
+	static void ShutdownJvm(JavaVM *jvm);
 
 	// Unloads the JVM library
 	//
