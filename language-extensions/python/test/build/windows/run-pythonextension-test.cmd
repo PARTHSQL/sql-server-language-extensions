@@ -35,6 +35,10 @@ IF NOT EXIST "%PYTHONHOME%\Scripts\wheel.exe" (
     echo [LOG] wheel not found in %PYTHONHOME%\Scripts, installing wheel.
     python -m pip install wheel
 )
+ELSE (
+    echo [LOG] wheel already installed in %PYTHONHOME%\Scripts.
+)
+pip install wheel
 
 pythonextension-test.exe --gtest_output=xml:%ENL_ROOT%\out\TestReport_PythonExtension-test.xml
 IF %ERRORLEVEL% NEQ 0 GOTO error
