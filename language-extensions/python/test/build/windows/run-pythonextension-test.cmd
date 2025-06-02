@@ -30,6 +30,12 @@ IF "%PYTHONHOME%"=="" (SET PYTHONHOME=%PACKAGES_ROOT%\python)
 
 SET PATH=%PATH%;%PYTHONHOME%;
 
+REM install wheel pip package
+IF NOT EXIST "%PYTHONHOME%\Scripts\wheel.exe" (
+    echo [LOG] wheel not found in %PYTHONHOME%\Scripts, installing wheel.
+    python -m pip install wheel
+)
+
 pythonextension-test.exe --gtest_output=xml:%ENL_ROOT%\out\TestReport_PythonExtension-test.xml
 IF %ERRORLEVEL% NEQ 0 GOTO error
 popd
