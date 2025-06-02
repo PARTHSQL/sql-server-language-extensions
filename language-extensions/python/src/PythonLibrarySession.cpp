@@ -116,6 +116,13 @@ SQLRETURN PythonLibrarySession::InstallLibrary(
 		"os.environ['TMPDIR'] = '" + tempFolder + "'";
 	bp::exec(setTemp.c_str(), m_mainNamespace);
 
+	// pip install wheel
+	string pipWheelScript = 
+		"import subprocess;pipresult = subprocess.run(['" + pathToPython +
+		"', '-m', 'pip', 'install', 'wheel', '--no-deps', '--ignore-installed', '--no-cache-dir'"
+		"]).returncode";
+	bp::exec(pipWheelScript.c_str(), m_mainNamespace);
+
 	string installScript = 
 		"import subprocess;pipresult = subprocess.run(['" + pathToPython +
 		"', '-m', 'pip', 'install', '" + installPath +
