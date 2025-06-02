@@ -1,4 +1,4 @@
-@ECHO off
+@ECHO ON
 SETLOCAL
 
 REM Set environment variables
